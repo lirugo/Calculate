@@ -6,18 +6,167 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.sample.foo.samplecalculator.MainActivity">
+
+        <EditText
+            android:id="@+id/edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="324dp"
+            android:inputType="textMultiLine"
+            android:gravity="bottom"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp"
+            android:background="@color/colorPrimaryDark"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/edit_text">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/image_button_move_left"
+                    android:src="@drawable/step_backward"
+                    style="@style/ImageButtonsActions"/>
+                <ImageButton
+                    android:id="@+id/image_button_move_right"
+                    android:src="@drawable/step_forward"
+                    style="@style/ImageButtonsActions"/>
+                <ImageButton
+                    android:id="@+id/image_button_sqr"
+                    android:src="@drawable/format_superscript"
+                    style="@style/ImageButtonsActions"/>
+                <ImageButton
+                    android:id="@+id/image_button_exponent"
+                    android:src="@drawable/exponent"
+                    style="@style/ImageButtonsActions"/>
+                <ImageButton
+                    android:id="@+id/image_button_sqrt"
+                    android:src="@drawable/square_root"
+                    style="@style/ImageButtonsActions"/>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/button_seven"
+                    style="@style/ButtonsActions"
+                    android:text="7"/>
+                <Button
+                    android:id="@+id/button_eight"
+                    style="@style/ButtonsActions"
+                    android:text="8"/>
+                <Button
+                    android:id="@+id/button_nine"
+                    style="@style/ButtonsActions"
+                    android:text="9"/>
+                <Button
+                    android:id="@+id/button_l_bracket"
+                    style="@style/ButtonsActions"
+                    android:text="("/>
+                <Button
+                    android:id="@+id/button_r_bracket"
+                    style="@style/ButtonsActions"
+                    android:text=")"/>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <Button
+                    style="@style/ButtonsActions"
+                    android:id="@+id/button_four"
+                    android:text="4"/>
+                <Button
+                    android:id="@+id/button_five"
+                    style="@style/ButtonsActions"
+                    android:text="5"/>
+                <Button
+                    android:id="@+id/button_six"
+                    style="@style/ButtonsActions"
+                    android:text="6"/>
+                <Button
+                    android:id="@+id/button_multiply"
+                    style="@style/ButtonsActions"
+                    android:text="*"/>
+                <Button
+                    android:id="@+id/button_divide"
+                    style="@style/ButtonsActions"
+                    android:text="/"/>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <Button
+                    style="@style/ButtonsActions"
+                    android:id="@+id/button_one"
+                    android:text="1"/>
+                <Button
+                    android:id="@+id/button_two"
+                    style="@style/ButtonsActions"
+                    android:text="2"/>
+                <Button
+                    android:id="@+id/button_three"
+                    style="@style/ButtonsActions"
+                    android:text="3"/>
+                <Button
+                    android:id="@+id/button_additional"
+                    style="@style/ButtonsActions"
+                    android:text="+"/>
+                <Button
+                    android:id="@+id/button_subtract"
+                    style="@style/ButtonsActions"
+                    android:text="-"/>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <Button
+                    style="@style/ButtonsActions"
+                    android:id="@+id/button_zero"
+                    android:text="0"/>
+                <Button
+                    android:id="@+id/button_dot"
+                    style="@style/ButtonsActions"
+                    android:text="."/>
+                <ImageButton
+                    android:id="@+id/image_button_pi"
+                    android:src="@drawable/pi"
+                    style="@style/ImageButtonsActions"/>
+                <ImageButton
+                    android:id="@+id/image_button_delete_one"
+                    android:src="@drawable/page_first"
+                   style="@style/ImageButtonsActions"/>
+                <ImageButton
+                    android:id="@+id/image_button_delete_all"
+                    android:src="@drawable/delete"
+                   style="@style/ImageButtonsActions"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp"
+        tools:ignore="MissingConstraints">
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottom_app_bar"
@@ -27,15 +176,7 @@
             app:backgroundTint="@color/colorPrimaryDark"
             app:fabAlignmentMode="center"
             app:fabCradleMargin="10dp"
-            app:navigationIcon="@drawable/menu"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/plus"
-            app:layout_anchor="@id/bottom_app_bar"
-            android:onClick="onClickAddButton"/>
+            app:navigationIcon="@drawable/menu" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

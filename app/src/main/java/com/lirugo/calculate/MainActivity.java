@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.app_bar_fav :
                 Toast.makeText(this, "I'm like it", Toast.LENGTH_SHORT).show();
-            case R.id.app_bar_clear :
-                Toast.makeText(this, "Clear all", Toast.LENGTH_SHORT).show();
         }
 
         return true;
