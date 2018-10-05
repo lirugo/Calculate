@@ -16,20 +16,30 @@
         <EditText
             android:id="@+id/edit_text"
             android:layout_width="match_parent"
-            android:layout_height="324dp"
-            android:inputType="textMultiLine"
+            android:layout_height="300dp"
             android:gravity="bottom"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingBottom="5dp"
+            android:enabled="false"
+            android:textColor="@android:color/white"
             android:background="@color/colorPrimaryDark"
             />
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="right"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp"
+            android:layout_below="@id/edit_text"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@id/edit_text">
+            android:layout_below="@id/text_view">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
@@ -62,15 +72,15 @@
                 android:orientation="horizontal">
                 <Button
                     android:id="@+id/button_seven"
-                    style="@style/ButtonsActions"
+                    style="@style/ButtonsDigits"
                     android:text="7"/>
                 <Button
                     android:id="@+id/button_eight"
-                    style="@style/ButtonsActions"
+                    style="@style/ButtonsDigits"
                     android:text="8"/>
                 <Button
                     android:id="@+id/button_nine"
-                    style="@style/ButtonsActions"
+                    style="@style/ButtonsDigits"
                     android:text="9"/>
                 <Button
                     android:id="@+id/button_l_bracket"
@@ -86,16 +96,16 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
                 <Button
-                    style="@style/ButtonsActions"
                     android:id="@+id/button_four"
+                    style="@style/ButtonsDigits"
                     android:text="4"/>
                 <Button
                     android:id="@+id/button_five"
-                    style="@style/ButtonsActions"
+                    style="@style/ButtonsDigits"
                     android:text="5"/>
                 <Button
                     android:id="@+id/button_six"
-                    style="@style/ButtonsActions"
+                    style="@style/ButtonsDigits"
                     android:text="6"/>
                 <Button
                     android:id="@+id/button_multiply"
@@ -111,16 +121,16 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
                 <Button
-                    style="@style/ButtonsActions"
                     android:id="@+id/button_one"
+                    style="@style/ButtonsDigits"
                     android:text="1"/>
                 <Button
                     android:id="@+id/button_two"
-                    style="@style/ButtonsActions"
+                    style="@style/ButtonsDigits"
                     android:text="2"/>
                 <Button
                     android:id="@+id/button_three"
-                    style="@style/ButtonsActions"
+                    style="@style/ButtonsDigits"
                     android:text="3"/>
                 <Button
                     android:id="@+id/button_additional"
@@ -136,13 +146,13 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
                 <Button
-                    style="@style/ButtonsActions"
                     android:id="@+id/button_zero"
-                    android:text="0"/>
+                    android:text="0"
+                    style="@style/ButtonsDigits"/>
                 <Button
                     android:id="@+id/button_dot"
-                    style="@style/ButtonsActions"
-                    android:text="."/>
+                    android:text="."
+                    style="@style/ButtonsDigits"/>
                 <ImageButton
                     android:id="@+id/image_button_pi"
                     android:src="@drawable/pi"
@@ -150,11 +160,14 @@
                 <ImageButton
                     android:id="@+id/image_button_delete_one"
                     android:src="@drawable/page_first"
-                   style="@style/ImageButtonsActions"/>
+                    style="@style/ImageButtonsActions"
+                    android:onClick="onClickRemoveLast"
+                    />
                 <ImageButton
                     android:id="@+id/image_button_delete_all"
                     android:src="@drawable/delete"
-                   style="@style/ImageButtonsActions"/>
+                    style="@style/ImageButtonsActions"
+                    android:onClick="onClickRemoveAll"/>
             </LinearLayout>
         </LinearLayout>
 
