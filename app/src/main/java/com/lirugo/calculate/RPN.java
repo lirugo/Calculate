@@ -8,7 +8,7 @@ class RPN {
     private static final char END_CHAR = '$';
 
     private static StringBuilder input;
-    private static StringBuilder output;
+    private static Stack<String> output;
     private static Double solution;
     private static Stack<Character> operators;
     private static Stack<Double> operand;
@@ -17,7 +17,7 @@ class RPN {
     public static String getExpression(String string){
         //Init global variable
         input = new StringBuilder(string);
-        output = new StringBuilder();
+        output = new Stack<>();
         operators = new Stack<>();
 
         //Set end and start point
@@ -37,7 +37,7 @@ class RPN {
                 } else if(getPriority(operators.peek()) > getPriority(input.charAt(i))){
                     //From Texas to California
                     while(operators.peek() != END_CHAR)
-                        output.append(operators.pop());
+                        output.push(operators.pop().toString());
                 } else if(getPriority(operators.peek()) < getPriority(input.charAt(i))){
                     return "ERROR";
                 }
@@ -49,7 +49,7 @@ class RPN {
                     i++;
                 }
                 i--;
-                output.append(digit);
+                output.push(digit.toString());
             //If it's operator
             } else if(isOperator(input.charAt(i))){
                 if(input.charAt(i) == '(')
@@ -59,7 +59,7 @@ class RPN {
                         if(operators.peek() == END_CHAR)
                             return "ERROR";
                         else if (getPriority(operators.peek()) > getPriority(input.charAt(i)))
-                            output.append(operators.pop());
+                            output.push(operators.pop().toString());
                         else if (getPriority(operators.peek()) < getPriority(input.charAt(i)))
                             return "ERROR";
                     }
@@ -67,7 +67,7 @@ class RPN {
                         operators.pop();
                 } else if(input.charAt(i) == END_CHAR){
                     if(getPriority(operators.peek()) > getPriority(input.charAt(i)))
-                        output.append(operators.pop());
+                        output.push(operators.pop().toString());
                     else if(getPriority(operators.peek()) < getPriority(input.charAt(i)))
                         return "ERROR";
                     else if(getPriority(operators.peek()) == getPriority(input.charAt(i)))
@@ -77,7 +77,7 @@ class RPN {
                         operators.push(input.charAt(i));
                     else if(getPriority(operators.peek()) >= getPriority(input.charAt(i))) {
                         while (getPriority(operators.peek()) >= getPriority(input.charAt(i)))
-                            output.append(operators.pop());
+                            output.push(operators.pop().toString());
                         operators.push(input.charAt(i));
                     }
                 } else if(getPriority(input.charAt(i)) == 3){
@@ -86,7 +86,7 @@ class RPN {
                     else if(getPriority(operators.peek()) < getPriority(input.charAt(i)))
                         operators.push(input.charAt(i));
                     else if(getPriority(operators.peek()) == getPriority(input.charAt(i))) {
-                        output.append(operators.pop());
+                        output.push(operators.pop().toString());
                         operators.push(input.charAt(i));
                     }
                 }
@@ -108,6 +108,14 @@ class RPN {
     public static Double getSolution(String string){
         //Init
         solution = 0.0;
+        operand = new Stack<>();
+        input = new StringBuilder(string);
+
+        for(int i=0; i<input.length(); i++) {
+            if (Character.isDigit(input.charAt(i))){
+                operand.push(Double.valueOf(input.charAt(i)));
+            }
+        }
         return solution;
     }
 
