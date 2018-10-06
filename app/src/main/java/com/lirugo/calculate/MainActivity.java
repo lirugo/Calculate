@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                textView.setText(s);
+                textView.setText(RPN.getExpression(s.toString()));
             }
         });
 
