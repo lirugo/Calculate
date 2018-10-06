@@ -9,8 +9,11 @@ class RPN {
 
     private static StringBuilder input;
     private static StringBuilder output;
+    private static Double solution;
     private static Stack<Character> operators;
+    private static Stack<Double> operand;
 
+    //Get Polish Expression
     public static String getExpression(String string){
         //Init global variable
         input = new StringBuilder(string);
@@ -27,13 +30,14 @@ class RPN {
         //Main cycle for getting Reverse Polish Notation
         for(int i=1; i<input.length(); i++) {
             //If it's start or end point
-            if(input.charAt(i) == '$'){
+            if(input.charAt(i) == END_CHAR){
                 if(getPriority(operators.peek()) == getPriority(input.charAt(i))){
                     //It's a answer
                     return String.valueOf(output);
                 } else if(getPriority(operators.peek()) > getPriority(input.charAt(i))){
                     //From Texas to California
-                    output.append(operators.pop());
+                    while(operators.peek() != END_CHAR)
+                        output.append(operators.pop());
                 } else if(getPriority(operators.peek()) < getPriority(input.charAt(i))){
                     return "ERROR";
                 }
@@ -81,8 +85,10 @@ class RPN {
                         return "ERROR";
                     else if(getPriority(operators.peek()) < getPriority(input.charAt(i)))
                         operators.push(input.charAt(i));
-                    else if(getPriority(operators.peek()) == getPriority(input.charAt(i)))
+                    else if(getPriority(operators.peek()) == getPriority(input.charAt(i))) {
                         output.append(operators.pop());
+                        operators.push(input.charAt(i));
+                    }
                 }
                 else return "ERROR";
 
@@ -96,6 +102,13 @@ class RPN {
 
 
         return String.valueOf(output);
+    }
+
+    //Get solution
+    public static Double getSolution(String string){
+        //Init
+        solution = 0.0;
+        return solution;
     }
 
     //Check it's operator
