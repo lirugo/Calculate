@@ -2,6 +2,9 @@ package com.lirugo.calculate;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 class RPN {
@@ -13,8 +16,42 @@ class RPN {
     private static Stack<Character> operators;
     private static Stack<Double> operand;
 
+    //Get solution
+    public static Double getSolution(String string){
+        //Init
+        solution = 0.0;
+        operand = new Stack<>();
+        output = getExpression(string);
+
+        if(output == null)
+            return 0.00;
+
+        List<String> list = new ArrayList<>(output);
+
+        for (int i=0; i<list.size(); i++){
+            if (isNumeric(list.get(i)))
+                operand.push(Double.valueOf(list.get(i)));
+            else if("+-*/".contains(list.get(i))){
+                char c = list.get(i).charAt(0);
+                double a = operand.pop();
+                if(operand.empty()){
+                    operand.push(a);
+                    continue;
+                }
+                double b = operand.pop();
+                operand.push(makeOperation(b, a, c));
+            } else return 0.00;
+        }
+
+
+        if(operand.size() == 1)
+            return operand.peek();
+        else
+            return 0.00;
+    }
+
     //Get Polish Expression
-    public static String getExpression(String string){
+    private static Stack<String> getExpression(String string){
         //Init global variable
         input = new StringBuilder(string);
         output = new Stack<>();
@@ -33,15 +70,15 @@ class RPN {
             if(input.charAt(i) == END_CHAR){
                 if(getPriority(operators.peek()) == getPriority(input.charAt(i))){
                     //It's a answer
-                    return String.valueOf(output);
+                    return output;
                 } else if(getPriority(operators.peek()) > getPriority(input.charAt(i))){
                     //From Texas to California
                     while(operators.peek() != END_CHAR)
                         output.push(operators.pop().toString());
                 } else if(getPriority(operators.peek()) < getPriority(input.charAt(i))){
-                    return "ERROR";
+                    return null;
                 }
-            //If it's digit
+                //If it's digit
             } else if(Character.isDigit(input.charAt(i))){
                 StringBuilder digit = new StringBuilder();
                 while(Character.isDigit(input.charAt(i))){
@@ -50,18 +87,18 @@ class RPN {
                 }
                 i--;
                 output.push(digit.toString());
-            //If it's operator
+                //If it's operator
             } else if(isOperator(input.charAt(i))){
                 if(input.charAt(i) == '(')
                     operators.push(input.charAt(i));
                 else if(input.charAt(i) == ')'){
                     while(operators.peek() != '(') {
                         if(operators.peek() == END_CHAR)
-                            return "ERROR";
+                            return null;
                         else if (getPriority(operators.peek()) > getPriority(input.charAt(i)))
                             output.push(operators.pop().toString());
                         else if (getPriority(operators.peek()) < getPriority(input.charAt(i)))
-                            return "ERROR";
+                            return null;
                     }
                     if (getPriority(operators.peek()) == getPriority(input.charAt(i)))
                         operators.pop();
@@ -69,9 +106,9 @@ class RPN {
                     if(getPriority(operators.peek()) > getPriority(input.charAt(i)))
                         output.push(operators.pop().toString());
                     else if(getPriority(operators.peek()) < getPriority(input.charAt(i)))
-                        return "ERROR";
+                        return null;
                     else if(getPriority(operators.peek()) == getPriority(input.charAt(i)))
-                        return String.valueOf(output);
+                        return output;
                 } else if(getPriority(input.charAt(i)) == 2){
                     if(getPriority(operators.peek()) < getPriority(input.charAt(i)))
                         operators.push(input.charAt(i));
@@ -82,7 +119,7 @@ class RPN {
                     }
                 } else if(getPriority(input.charAt(i)) == 3){
                     if(getPriority(operators.peek()) > getPriority(input.charAt(i)))
-                        return "ERROR";
+                        return null;
                     else if(getPriority(operators.peek()) < getPriority(input.charAt(i)))
                         operators.push(input.charAt(i));
                     else if(getPriority(operators.peek()) == getPriority(input.charAt(i))) {
@@ -90,38 +127,41 @@ class RPN {
                         operators.push(input.charAt(i));
                     }
                 }
-                else return "ERROR";
-
+                else return null;
             }
 
-
-            Log.d("ALERT ----------", "---------------------");
-            Log.d("ALERT OUTPUT ---", String.valueOf(output));
-            Log.d("ALERT STACK ----", String.valueOf(operators));
+//            Log.d("EXPRESSION ----------", "---------------------");
+//            Log.d("OUTPUT ---", String.valueOf(output));
+//            Log.d("STACK ----", String.valueOf(operators));
         }
 
-
-        return String.valueOf(output);
+        return output;
     }
 
-    //Get solution
-    public static Double getSolution(String string){
-        //Init
-        solution = 0.0;
-        operand = new Stack<>();
-        input = new StringBuilder(string);
-
-        for(int i=0; i<input.length(); i++) {
-            if (Character.isDigit(input.charAt(i))){
-                operand.push(Double.valueOf(input.charAt(i)));
-            }
+    //Make operation with two operands
+    private static Double makeOperation(double a, double b, char operator){
+        switch (operator){
+            case '*' : return a * b;
+            case '/' : return a / b;
+            case '+' : return a + b;
+            case '-' : return a - b;
+            default  : return null;
         }
-        return solution;
     }
 
     //Check it's operator
     private static boolean isOperator(char c){
         return "+-*/()".indexOf(c) != -1;
+    }
+
+    //Check it's numeric
+    private static boolean isNumeric(String string){
+        try {
+            double d = Double.parseDouble(string);
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
+        }
+        return true;
     }
 
     //Get operation priority

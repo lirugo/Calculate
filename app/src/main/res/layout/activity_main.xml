@@ -23,6 +23,7 @@
             android:enabled="false"
             android:textColor="@android:color/white"
             android:background="@color/colorPrimaryDark"
+            android:text="(8+2*5)/(1+3*2-4"
             />
         <TextView
             android:id="@+id/text_view"
