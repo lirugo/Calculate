@@ -81,7 +81,7 @@ class RPN {
                 //If it's digit
             } else if(Character.isDigit(input.charAt(i))){
                 StringBuilder digit = new StringBuilder();
-                while(Character.isDigit(input.charAt(i))){
+                while(Character.isDigit(input.charAt(i)) || input.charAt(i) == '.'){
                     digit.append(input.charAt(i));
                     i++;
                 }

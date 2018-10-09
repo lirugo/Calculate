@@ -18,11 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:gravity="bottom"
+            android:minLines="2"
+            android:maxLines="2"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:textColor="@android:color/white"
             android:background="@color/colorPrimaryDark"
             android:textCursorDrawable="@null"
+            android:inputType="textMultiLine"
             />
         <TextView
             android:id="@+id/text_view"
@@ -163,7 +166,7 @@
                     android:id="@+id/image_button_delete_one"
                     android:src="@drawable/page_first"
                     style="@style/ImageButtonsActions"
-                    android:onClick="onClickRemoveLast"
+                    android:onClick="onClickRemove"
                     />
                 <ImageButton
                     android:id="@+id/image_button_delete_all"
@@ -192,6 +195,14 @@
             app:fabAlignmentMode="center"
             app:fabCradleMargin="10dp"
             app:navigationIcon="@drawable/menu" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/plus"
+            android:backgroundTint="@color/colorPrimaryDark"
+            app:layout_anchor="@id/bottom_app_bar" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

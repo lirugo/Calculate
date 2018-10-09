@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.edit_text);
         textView = (TextView) findViewById(R.id.text_view);
 
-        //Actions
+        //Actions on editText
         editTextActions();
     }
 
@@ -100,10 +100,9 @@ public class MainActivity extends AppCompatActivity {
         editText.getText().insert(editText.getSelectionStart(), btn.getText().toString());
     }
 
-    public void onClickRemoveLast(View v){
-        int length = editText.getText().length();
-        if(length > 0)
-            editText.getText().delete(length - 1, length);
+    public void onClickRemove(View v){
+        if(editText.getSelectionStart() > 0)
+            editText.getText().delete(editText.getSelectionStart() - 1,editText.getSelectionStart());
     }
 
     public void onClickRemoveAll(View v){
