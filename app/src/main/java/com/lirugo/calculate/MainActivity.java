@@ -91,13 +91,13 @@ public class MainActivity extends AppCompatActivity {
     //Action on click digits buttons
     public void onClickButtonsDigits(View v) {
         Button btn = (Button) v;
-        editText.append(btn.getText().toString());
+        editText.getText().insert(editText.getSelectionStart(), btn.getText().toString());
     }
 
     //Action on click actions buttons
     public void onClickButtonsActions(View v) {
         Button btn = (Button) v;
-        editText.append(btn.getText().toString());
+        editText.getText().insert(editText.getSelectionStart(), btn.getText().toString());
     }
 
     public void onClickRemoveLast(View v){
