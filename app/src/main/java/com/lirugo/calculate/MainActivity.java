@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private ListView historiesView;
     private List<History> histories = new ArrayList();
+    private HistoryAdapter historyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setInitialData();
         // получаем элемент ListView
         historiesView = (ListView) findViewById(R.id.list_view_history);
-        HistoryAdapter historyAdapter = new HistoryAdapter(this, R.layout.history_item, histories);
+        historyAdapter = new HistoryAdapter(this, R.layout.history_item, histories);
         // устанавливаем адаптер
         historiesView.setAdapter(historyAdapter);
 
@@ -132,6 +133,12 @@ public class MainActivity extends AppCompatActivity {
     public void onClickRemove(View v){
         if(editText.getSelectionStart() > 0)
             editText.getText().delete(editText.getSelectionStart() - 1,editText.getSelectionStart());
+        else if(histories.size() == 0)
+            return;
+        else {
+            histories.remove(histories.size() - 1);
+            historyAdapter.notifyDataSetChanged();
+        }
     }
 
     //Remove all
@@ -156,6 +163,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickAdd(View v){
-        Toast.makeText(this, "ADDING NEW ROW", Toast.LENGTH_LONG).show();
+        if(!editText.getText().toString().equals("")) {
+            histories.add(new History(editText.getText().toString(), textView.getText().toString()));
+            editText.getText().clear();
+            historyAdapter.notifyDataSetChanged();
+            historiesView.setSelection(historyAdapter.getCount() - 1);
+        }
     }
 }
