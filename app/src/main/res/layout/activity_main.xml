@@ -209,6 +209,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/plus"
             android:backgroundTint="@color/colorPrimaryDark"
+            android:onClick="onClickAdd"
             app:layout_anchor="@id/bottom_app_bar" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

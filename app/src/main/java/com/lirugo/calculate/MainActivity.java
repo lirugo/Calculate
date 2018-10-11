@@ -154,4 +154,8 @@ public class MainActivity extends AppCompatActivity {
                 editText.setSelection(editText.getSelectionStart() + 1);
         }
     }
+
+    public void onClickAdd(View v){
+        Toast.makeText(this, "ADDING NEW ROW", Toast.LENGTH_LONG).show();
+    }
 }
