@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText editText;
     private TextView textView;
     private ListView historiesView;
-
-    // набор данных, которые свяжем со списком
     private List<History> histories = new ArrayList();
 
     @Override
@@ -57,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         editTextActions();
     }
 
+    //Init data for ListView
     private void setInitialData(){
 
         histories.add(new History ("2+2*2", "6"));
@@ -129,15 +128,18 @@ public class MainActivity extends AppCompatActivity {
         editText.getText().insert(editText.getSelectionStart(), btn.getText().toString());
     }
 
+    //Remove left from cursor
     public void onClickRemove(View v){
         if(editText.getSelectionStart() > 0)
             editText.getText().delete(editText.getSelectionStart() - 1,editText.getSelectionStart());
     }
 
+    //Remove all
     public void onClickRemoveAll(View v){
         editText.getText().clear();
     }
 
+    //Actions for move cursor button
     public void onClickMoveCursor(View v){
         if(v.getId() == R.id.image_button_move_left){
             if((editText.getSelectionStart() - 1) < 0)
@@ -152,5 +154,4 @@ public class MainActivity extends AppCompatActivity {
                 editText.setSelection(editText.getSelectionStart() + 1);
         }
     }
-
 }
