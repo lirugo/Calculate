@@ -11,8 +11,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText editText;
     private TextView textView;
+    private ListView historiesView;
+
+    // набор данных, которые свяжем со списком
+    private List<History> histories = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +42,30 @@ public class MainActivity extends AppCompatActivity {
         //Init
         editText = (EditText) findViewById(R.id.edit_text);
         textView = (TextView) findViewById(R.id.text_view);
+        historiesView = (ListView) findViewById(R.id.list_view_history);
+
+        //Create Adapter
+        // начальная инициализация списка
+        setInitialData();
+        // получаем элемент ListView
+        historiesView = (ListView) findViewById(R.id.list_view_history);
+        HistoryAdapter historyAdapter = new HistoryAdapter(this, R.layout.history_item, histories);
+        // устанавливаем адаптер
+        historiesView.setAdapter(historyAdapter);
 
         //Actions on editText
         editTextActions();
+    }
+
+    private void setInitialData(){
+
+        histories.add(new History ("2+2*2", "6"));
+        histories.add(new History ("1+2+3+4+5", "15"));
+        histories.add(new History ("8+2*2", "12"));
+        histories.add(new History ("1.5+2.5", "4"));
+        histories.add(new History ("1.5+2.5", "4"));
+        histories.add(new History ("1.5+2.5", "4"));
+        histories.add(new History ("1+1+1+2", "5"));
     }
 
     //Actions with editText field

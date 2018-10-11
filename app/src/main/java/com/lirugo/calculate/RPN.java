@@ -12,14 +12,12 @@ class RPN {
 
     private static StringBuilder input;
     private static Stack<String> output;
-    private static Double solution;
     private static Stack<Character> operators;
     private static Stack<Double> operand;
 
     //Get solution
     public static Double getSolution(String string){
         //Init
-        solution = 0.0;
         operand = new Stack<>();
         output = getExpression(string);
 

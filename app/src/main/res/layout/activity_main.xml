@@ -13,19 +13,26 @@
         android:layout_height="match_parent"
         tools:context="com.sample.foo.samplecalculator.MainActivity">
 
+        <ListView
+            android:id="@+id/list_view_history"
+            android:layout_width="match_parent"
+            android:layout_height="275dp"
+            android:background="@color/colorPrimaryDark"
+            android:stackFromBottom="true"
+            android:dividerHeight="2dp">
+        </ListView>
+
         <EditText
             android:id="@+id/edit_text"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/list_view_history"
             android:gravity="bottom"
-            android:minLines="2"
-            android:maxLines="2"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:textColor="@android:color/white"
             android:background="@color/colorPrimaryDark"
             android:textCursorDrawable="@null"
-            android:inputType="textMultiLine"
             />
         <TextView
             android:id="@+id/text_view"
