@@ -1,6 +1,8 @@
 package com.lirugo.calculate;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private ListView historiesView;
     private List<History> histories = new ArrayList();
     private HistoryAdapter historyAdapter;
+    private DatabaseHelper databaseHelper;
+    private SQLiteDatabase db;
+    private Cursor calculationsCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,29 +49,18 @@ public class MainActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.text_view);
         historiesView = (ListView) findViewById(R.id.list_view_history);
 
-        //Create Adapter
-        // начальная инициализация списка
-        setInitialData();
-        // получаем элемент ListView
+        //Create DB
+        databaseHelper = new DatabaseHelper(getApplicationContext());
+
+        //Get ListView
         historiesView = (ListView) findViewById(R.id.list_view_history);
         historyAdapter = new HistoryAdapter(this, R.layout.history_item, histories);
-        // устанавливаем адаптер
+
+        //Add Adapter
         historiesView.setAdapter(historyAdapter);
 
         //Actions on editText
         editTextActions();
-    }
-
-    //Init data for ListView
-    private void setInitialData(){
-
-        histories.add(new History ("2+2*2", "6"));
-        histories.add(new History ("1+2+3+4+5", "15"));
-        histories.add(new History ("8+2*2", "12"));
-        histories.add(new History ("1.5+2.5", "4"));
-        histories.add(new History ("1.5+2.5", "4"));
-        histories.add(new History ("1.5+2.5", "4"));
-        histories.add(new History ("1+1+1+2", "5"));
     }
 
     //Actions with editText field
@@ -98,6 +93,32 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(RPN.getSolution(s.toString()).toString());
             }
         });
+    }
+
+    //Init objects for DB
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Open connection
+        db = databaseHelper.getReadableDatabase();
+        //Get data from DB
+        calculationsCursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE, null);
+        //Init data from DB
+        if (calculationsCursor.moveToFirst()) {
+            //Loop through the table rows
+            do {
+                //Add movie details to list
+                histories.add(new History(calculationsCursor.getString(1), calculationsCursor.getString(2)));
+            } while (calculationsCursor.moveToNext());
+        }
+    }
+
+    //Close cursor
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+        calculationsCursor.close();
     }
 
     //Init options for menu
@@ -162,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Actions on adding
     public void onClickAdd(View v){
         if(!editText.getText().toString().equals("")) {
             histories.add(new History(editText.getText().toString(), textView.getText().toString()));
