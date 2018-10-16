@@ -1,11 +1,13 @@
 package com.lirugo.calculate;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 histories.add(new History(calculationsCursor.getString(1), calculationsCursor.getString(2)));
             } while (calculationsCursor.moveToNext());
         }
+        db.close();
     }
 
     //Close cursor
@@ -157,6 +160,14 @@ public class MainActivity extends AppCompatActivity {
         else if(histories.size() == 0)
             return;
         else {
+            //Open connection
+            db = databaseHelper.getWritableDatabase();
+            //Get count rows
+            calculationsCursor = db.rawQuery("SELECT MAX(_id) FROM " + DatabaseHelper.TABLE, null);
+            calculationsCursor.moveToFirst();
+            //Delete
+            db.delete(DatabaseHelper.TABLE, DatabaseHelper.COLUMN_ID + " = ?", new String[]{String.valueOf(calculationsCursor.getInt(0))});
+            db.close();
             histories.remove(histories.size() - 1);
             historyAdapter.notifyDataSetChanged();
         }
@@ -186,10 +197,19 @@ public class MainActivity extends AppCompatActivity {
     //Actions on adding
     public void onClickAdd(View v){
         if(!editText.getText().toString().equals("")) {
+            //Open connection
+            db = databaseHelper.getReadableDatabase();
+            ContentValues cv = new ContentValues();
+            cv.put(DatabaseHelper.COLUMN_INPUT, editText.getText().toString());
+            cv.put(DatabaseHelper.COLUMN_OUTPUT, textView.getText().toString());
+            db.insert(DatabaseHelper.TABLE, null, cv);
+            db.close();
+
             histories.add(new History(editText.getText().toString(), textView.getText().toString()));
             editText.getText().clear();
             historyAdapter.notifyDataSetChanged();
             historiesView.setSelection(historyAdapter.getCount() - 1);
         }
     }
+
 }
