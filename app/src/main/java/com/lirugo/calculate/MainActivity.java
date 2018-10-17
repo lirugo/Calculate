@@ -7,16 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
         //Get ListView
         historiesView = (ListView) findViewById(R.id.list_view_history);
         historyAdapter = new HistoryAdapter(this, R.layout.history_item, histories);
+
+        historiesView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+            {
+                Toast.makeText(MainActivity.this, ""+position, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //Add Adapter
         historiesView.setAdapter(historyAdapter);
