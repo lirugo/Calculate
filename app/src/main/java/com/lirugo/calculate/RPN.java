@@ -83,8 +83,20 @@ class RPN {
                     digit.append(input.charAt(i));
                     i++;
                 }
-                i--;
-                output.push(digit.toString());
+                if(input.charAt(i) == '^' && input.charAt(i+1) != '^'){
+                    i++;
+                    StringBuilder power = new StringBuilder();
+                    while(input.charAt(i) != '^'){
+                        power.append(input.charAt(i));
+                        i++;
+                        if(i == input.length())
+                            return null;
+                    }
+                    output.push(String.valueOf(Math.pow(Double.parseDouble(digit.toString()), Double.parseDouble(power.toString()))));
+                }else{
+                    i--;
+                    output.push(digit.toString());
+                }
                 //If it's operator
             } else if(isOperator(input.charAt(i))){
                 if(input.charAt(i) == '(')
@@ -172,6 +184,7 @@ class RPN {
             case '-' : return 2;
             case '*' : return 3;
             case '/' : return 3;
+            case '^' : return 3;
             default  : return -1;
         }
     }
