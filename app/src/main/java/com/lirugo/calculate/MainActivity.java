@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -72,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
         editTextActions();
     }
 
+    //Cutting HTML expressions
+    private String getExpression(Editable s){
+        return Html.toHtml(s).replaceAll("</p>", "").replaceAll("<p dir=\"ltr\">", "");
+    }
+
     //Actions with editText field
     private void editTextActions(){
         //Hide soft keyboard
@@ -99,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                textView.setText(RPN.getSolution(s.toString()).toString());
+                textView.setText(RPN.getSolution(getExpression((Editable) s)).toString());
             }
         });
     }
@@ -217,6 +223,13 @@ public class MainActivity extends AppCompatActivity {
             historyAdapter.notifyDataSetChanged();
             historiesView.setSelection(historyAdapter.getCount() - 1);
         }
+    }
+
+    //Actions on Sqr button
+    public void onClickSqr(View v){
+        if(editText.getSelectionStart() != 0)
+            if(Character.isDigit(editText.getText().charAt(editText.getSelectionStart() - 1)))
+                editText.getText().insert(editText.getSelectionStart(), Html.fromHtml("<sup><small>2</small></sup>"));
     }
 
 }

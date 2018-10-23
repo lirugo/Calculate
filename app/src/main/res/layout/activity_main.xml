@@ -26,7 +26,7 @@
         <EditText
             android:id="@+id/edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_below="@id/list_view_history"
             android:gravity="bottom"
             android:paddingLeft="15dp"
@@ -69,7 +69,8 @@
                 <ImageButton
                     android:id="@+id/image_button_sqr"
                     android:src="@drawable/format_superscript"
-                    style="@style/ImageButtonsActions"/>
+                    style="@style/ImageButtonsActions"
+                    android:onClick="onClickSqr"/>
                 <ImageButton
                     android:id="@+id/image_button_exponent"
                     android:src="@drawable/exponent"

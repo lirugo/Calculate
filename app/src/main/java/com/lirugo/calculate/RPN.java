@@ -62,6 +62,35 @@ class RPN {
         //Push start char
         operators.push(input.charAt(0));
 
+        //Power
+        while (input.indexOf("<sup>") != -1)
+        {
+            int j = input.indexOf("<sup>");
+            int i = j + 5;
+            int end, pow;
+            StringBuilder power = new StringBuilder();
+            StringBuilder digit = new StringBuilder();
+
+            while(input.charAt(i) != '<'){
+                power.append(input.charAt(i));
+                i++;
+            }
+            end = i + 6;
+            i = j - 1;
+            while(isNumeric(String.valueOf(input.charAt(i)))){
+                digit.append(input.charAt(i));
+                i--;
+            }
+
+            pow = (int) Math.pow(Integer.parseInt(digit.toString()), Integer.parseInt(power.toString()));
+
+            input.delete(i+1, end);
+            input.insert(i+1, pow);
+
+//            Log.d("ALERT", String.valueOf("INPUT " + input));
+//            Log.d("ALERT", String.valueOf("POW " + pow));
+        }
+
         //Main cycle for getting Reverse Polish Notation
         for(int i=1; i<input.length(); i++) {
             //If it's start or end point
@@ -83,20 +112,8 @@ class RPN {
                     digit.append(input.charAt(i));
                     i++;
                 }
-                if(input.charAt(i) == '^' && input.charAt(i+1) != '^'){
-                    i++;
-                    StringBuilder power = new StringBuilder();
-                    while(input.charAt(i) != '^'){
-                        power.append(input.charAt(i));
-                        i++;
-                        if(i == input.length())
-                            return null;
-                    }
-                    output.push(String.valueOf(Math.pow(Double.parseDouble(digit.toString()), Double.parseDouble(power.toString()))));
-                }else{
-                    i--;
-                    output.push(digit.toString());
-                }
+                i--;
+                output.push(digit.toString());
                 //If it's operator
             } else if(isOperator(input.charAt(i))){
                 if(input.charAt(i) == '(')
